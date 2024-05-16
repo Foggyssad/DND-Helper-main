@@ -58,7 +58,6 @@ class Window:
         hit_points = self.gui_manager.create_label(f"Hit Points:{hit_points}")
         self.gui_manager.labels["Hit Points:"] = hit_points
 
-
     def create_to_third_button(self):
         from events import EventHandler
         self.events = EventHandler(self.master, self.gui_manager)
@@ -78,7 +77,6 @@ class Window:
         self.gui_manager.column_count = 1
         armour_class = self.gui_manager.create_label("10")
         self.gui_manager.labels["Armor Class Value:"] = armour_class
-
 
     def create_submit_button(self):
         from events import EventHandler
@@ -232,6 +230,13 @@ class FourthWindow(Window):
 
         print("Creating window with", len(characteristics), "characteristics")
 
+        self.gui_manager.column_count = 3
+        for skill in self.dictionaries.CLASS_SKILL:
+            label_text = f"{skill}: +0"
+            label = self.gui_manager.create_label(label_text)
+            self.skill_labels[skill] = label
+
+        self.gui_manager.reset_row_count()
         for characteristic in characteristics:
             label_text = characteristic.replace('_', ' ').capitalize() + ":"
             default_text = getattr(self.character_builder, characteristic, "")
@@ -239,20 +244,20 @@ class FourthWindow(Window):
             if characteristic == "background":
                 # Call function for background
                 self.gui_manager.create_dropdown_entry("Background:", ["Acolyte", "Criminal", "Folk Hero", "Haunted One", "Noble", "Sage",
-                                                "Soldier"], default_value=str(default_text), command=self.update.update_proficiencies)
+                                                "Soldier"], default_value=str(default_text), command=lambda event: self.update.update_skills_prof(self.skill_labels))
                 self.update.update_proficiencies()
                 print(default_text)
             elif characteristic == "race":
                 # Call function for race
                 self.gui_manager.create_dropdown_entry("Race:", ["Aarakocra", "Dragonborn", "Dwarf", "Elf", "Genasi",
                                                                  "Half-Orc", "Aasimar"], default_value=str(default_text),
-                                                       command=self.update.update_counter)
+                                                       command=lambda event: self.update.update_skills_prof_race(self.skill_labels))
                 print(default_text)
             elif characteristic == "character_class":
                 # Call function for race
                 self.gui_manager.create_dropdown_entry("Class:", ["Fighter", "Wizard", "Rogue", "Cleric", "Barbarian", "Bard",
                                                 "Druid", "Monk", "Ranger", "Sorcerer", "Warlock", "Paladin"], default_value=str(default_text),
-                                                       command=self.update.update_proficiencies)
+                                                       command=lambda event: self.update.update_skills_prof(self.skill_labels))
                 print(default_text)
 
             else:
@@ -265,13 +270,6 @@ class FourthWindow(Window):
             modified_stat_value = int(self.gui_manager.labels["Modified " + stat].cget("text").split(": ")[1])
             label = self.gui_manager.create_label(f"Modified {stat}: {modified_stat_value}")
             self.gui_manager.labels[f"Modified {stat}"] = label  # Store the reference to the label widget
-
-        self.gui_manager.reset_row_count()
-        self.gui_manager.column_count = 3
-        for skill in self.dictionaries.CLASS_SKILL:
-            label_text = f"{skill}: +0"
-            label = self.gui_manager.create_label(label_text)
-            self.skill_labels[skill] = label
 
         self.update.update_skill_labels(self.skill_labels)
         super().create_save_button()

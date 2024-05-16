@@ -102,7 +102,7 @@ class Update:
             total_modifier = stat_modifier + proficiency_bonus
 
             # Update the label text
-            label.config(text=f"{skill}: +{total_modifier}")
+            label.config(text=f"{skill}: {'+' if total_modifier >= 0 else ''}{total_modifier}")
 
     def update_proficiencies(self, *args):
         # Remove previous skill and tool proficiency labels if they exist
@@ -143,3 +143,12 @@ class Update:
                                                                                        tool_proficiencies))
         self.gui_manager.labels["Tool Proficiencies:"].grid(row=self.gui_manager.name_label_row + 2, column=2,
                                                             sticky='w')
+
+    def update_skills_prof(self, skill_labels):
+        self.update_proficiencies()
+        self.update_skill_labels(skill_labels)
+
+    def update_skills_prof_race(self, skill_labels):
+        self.update_counter()
+        self.update_proficiencies()
+        self.update_skill_labels(skill_labels)
