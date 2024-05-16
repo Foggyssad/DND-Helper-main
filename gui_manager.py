@@ -53,8 +53,12 @@ class GUIManager:
 
         if default_value is None or default_value not in options:
             default_value = options[0]
+        print(f"Setting default_value: {default_value}")  # Debug print
 
         selected_value.set(default_value)
+
+        # More debug prints to ensure everything is correct
+        print(f"selected_value before creating dropdown: {selected_value.get()}")
 
         dropdown = self.factory.create_dropdown(self.master, options, command, variable=selected_value)
         dropdown.grid(row=row, column=1)
@@ -62,6 +66,9 @@ class GUIManager:
         dropdown.config(anchor='w')
         self.add_label(label_text, label)
         self.add_entry(label_text, dropdown)
+
+        # Final debug print to confirm the value after creating the dropdown
+        print(f"Dropdown current value after creation: {selected_value.get()}")
 
         return dropdown
 

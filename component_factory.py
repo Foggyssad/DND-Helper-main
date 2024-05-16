@@ -18,11 +18,13 @@ class EntryComponent(GUIComponent):
         return tk.Entry(master, **kwargs)
 
 
-class DropdownComponent(GUIComponent):
-    def create(self, master, options=None, command=None, **kwargs):
-        var = tk.StringVar(master)
-        var.set(options[0])  # Set default value
-        dropdown = tk.OptionMenu(master, var, *options, command=command)
+class DropdownComponent:
+    def create(self, master, options=None, command=None, variable=None, **kwargs):
+        if variable is None:
+            variable = tk.StringVar(master)
+            variable.set(options[0])  # Set default value only if variable is not provided
+
+        dropdown = tk.OptionMenu(master, variable, *options, command=command)
         dropdown.config(width=10)
         return dropdown
 

@@ -15,6 +15,78 @@ class Dictionaries:
         # Add more classes and their armor proficiencies as needed
     }
 
+    CLASS_SKILL = {
+            "Acrobatics": "Dexterity",
+            "Animal Handling": "Wisdom",
+            "Arcana": "Intelligence",
+            "Athletics": "Strength",
+            "Deception": "Charisma",
+            "History": "Intelligence",
+            "Insight": "Wisdom",
+            "Intimidation": "Charisma",
+            "Investigation": "Intelligence",
+            "Medicine": "Wisdom",
+            "Nature": "Intelligence",
+            "Perception": "Wisdom",
+            "Performance": "Charisma",
+            "Persuasion": "Charisma",
+            "Religion": "Intelligence",
+            "Sleight of Hand": "Dexterity",
+            "Stealth": "Dexterity",
+            "Survival": "Wisdom"
+        }
+
+    CLASS_PROFICIENCY = {
+            "Barbarian": {
+                "Skill Proficiencies": ["Animal Handling", "Athletics", "Intimidation", "Nature", "Perception",
+                                        "Survival"], "Tool Proficiencies": []},
+            "Bard": {
+                "Skill Proficiencies": ["Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History",
+                                        "Insight", "Intimidation", "Investigation", "Medicine", "Nature", "Perception",
+                                        "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth",
+                                        "Survival"], "Tool Proficiencies": ["Three musical instruments"]},
+            "Cleric": {"Skill Proficiencies": ["History", "Insight", "Medicine", "Persuasion", "Religion"],
+                       "Tool Proficiencies": []},
+            "Druid": {
+                "Skill Proficiencies": ["Arcana", "Animal Handling", "Insight", "Medicine", "Nature", "Perception",
+                                        "Religion", "Survival"], "Tool Proficiencies": ["Herbalism kit"]},
+            "Fighter": {"Skill Proficiencies": ["Acrobatics", "Animal Handling", "Athletics", "History", "Insight",
+                                                "Intimidation", "Perception", "Survival"], "Tool Proficiencies": []},
+            "Monk": {"Skill Proficiencies": ["Acrobatics", "Athletics", "History", "Insight", "Religion", "Stealth"],
+                     "Tool Proficiencies": ["One type of artisan's tools", "One musical instrument"]},
+            "Paladin": {
+                "Skill Proficiencies": ["Athletics", "Insight", "Intimidation", "Medicine", "Persuasion", "Religion"],
+                "Tool Proficiencies": []},
+            "Ranger": {"Skill Proficiencies": ["Animal Handling", "Athletics", "Insight", "Investigation", "Nature",
+                                               "Perception", "Stealth", "Survival"], "Tool Proficiencies": []},
+            "Rogue": {"Skill Proficiencies": ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation",
+                                              "Investigation", "Perception", "Performance", "Persuasion",
+                                              "Sleight of Hand", "Stealth"], "Tool Proficiencies": ["Thieves' Tools"]},
+            "Sorcerer": {
+                "Skill Proficiencies": ["Arcana", "Deception", "Insight", "Intimidation", "Persuasion", "Religion"],
+                "Tool Proficiencies": []},
+            "Warlock": {
+                "Skill Proficiencies": ["Arcana", "Deception", "History", "Intimidation", "Investigation", "Nature",
+                                        "Religion"], "Tool Proficiencies": []},
+            "Wizard": {"Skill Proficiencies": ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"],
+                       "Tool Proficiencies": []}
+            # Add more classes and their proficiencies as needed
+        }
+
+    BACKGROUND_PROFICIENCIES = {
+        "Acolyte": {"Skill Proficiencies": ["Insight", "Religion"], "Tool Proficiencies": []},
+        "Criminal": {"Skill Proficiencies": ["Deception", "Stealth"], "Tool Proficiencies": ["Thieves' Tools"]},
+        "Folk Hero": {"Skill Proficiencies": ["Animal Handling", "Survival"],
+                      "Tool Proficiencies": ["One type of artisan's tools", "vehicles (land)"]},
+        "Haunted One": {"Skill Proficiencies": ["Choose two from Arcana, Investigation, Religion, and Survival"],
+                        "Tool Proficiencies": []},
+        "Noble": {"Skill Proficiencies": ["History", "Persuasion"],
+                  "Tool Proficiencies": ["One type of gaming set"]},
+        "Sage": {"Skill Proficiencies": ["Arcana", "History"], "Tool Proficiencies": []},
+        "Soldier": {"Skill Proficiencies": ["Athletics"], "Tool Proficiencies": ["Vehicle (land)"]}
+        # Add more backgrounds and their proficiencies as needed
+    }
+
     CLASS_HIT_DICE = {
         "Fighter": 10,
         "Wizard": 6,

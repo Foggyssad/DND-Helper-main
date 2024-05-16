@@ -36,7 +36,7 @@ class DataConservation:
         character_builder.set_armor_class(gui_manager.labels["Armor Class Value:"].cget("text"))
         character_builder.set_skill_proficiencies(gui_manager.labels["Skill Proficiencies:"].cget("text"))
         character_builder.set_tool_proficiencies(gui_manager.labels["Tool Proficiencies:"].cget("text"))
-        character_builder.set_hit_points(gui_manager.labels["Hit Points:"].cget("text").replace("Hit Points: ", ""))
+        character_builder.set_hit_points(gui_manager.labels["Hit Points:"].cget("text").replace("Hit Points:", ""))
         character_builder.set_history(gui_manager.entries["History:"].get())
         character_builder.set_hair(gui_manager.entries["Hair:"].get())
         character_builder.set_skin(gui_manager.entries["Skin:"].get())

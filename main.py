@@ -24,23 +24,17 @@ def main():
     event_handler = EventHandler(root, gui_manager)
     event_handler.set_windows(first_window, second_window, third_window, fourth_window, characters_window)
 
+    windows = [first_window, second_window, third_window, fourth_window, characters_window]
+
     # Set up event handler in windows
-    first_window.set_event_handler(event_handler)
-    second_window.set_event_handler(event_handler)
-    third_window.set_event_handler(event_handler)
-    fourth_window.set_event_handler(event_handler)
-    characters_window.set_event_handler(event_handler)
+    for window in windows:
+        window.set_event_handler(event_handler)
 
     # Show first window
     first_window.create_window()
 
     root.mainloop()
 
-    # Once all windows are closed, you can retrieve the filled character builder from the third window
-    filled_character_builder = third_window.character_builder
-
-    # Pass the filled character builder to the fourth window
-    fourth_window.character_builder = filled_character_builder
 
 if __name__ == "__main__":
     main()

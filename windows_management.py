@@ -219,6 +219,7 @@ class FourthWindow(Window):
         self.factory = GUIFactory()
         self.update = Update(master, gui_manager)
         self.character_builder = character_builder  # Assuming you pass the character data as an argument
+        self.skill_labels = {}
 
     def create_window(self):
         super().clear_window()
@@ -240,11 +241,18 @@ class FourthWindow(Window):
                 self.gui_manager.create_dropdown_entry("Background:", ["Acolyte", "Criminal", "Folk Hero", "Haunted One", "Noble", "Sage",
                                                 "Soldier"], default_value=str(default_text), command=self.update.update_proficiencies)
                 self.update.update_proficiencies()
+                print(default_text)
             elif characteristic == "race":
                 # Call function for race
                 self.gui_manager.create_dropdown_entry("Race:", ["Aarakocra", "Dragonborn", "Dwarf", "Elf", "Genasi",
                                                                  "Half-Orc", "Aasimar"], default_value=str(default_text),
                                                        command=self.update.update_counter)
+                print(default_text)
+            elif characteristic == "character_class":
+                # Call function for race
+                self.gui_manager.create_dropdown_entry("Class:", ["Fighter", "Wizard", "Rogue", "Cleric", "Barbarian", "Bard",
+                                                "Druid", "Monk", "Ranger", "Sorcerer", "Warlock", "Paladin"], default_value=str(default_text),
+                                                       command=self.update.update_proficiencies)
                 print(default_text)
 
             else:
@@ -258,6 +266,14 @@ class FourthWindow(Window):
             label = self.gui_manager.create_label(f"Modified {stat}: {modified_stat_value}")
             self.gui_manager.labels[f"Modified {stat}"] = label  # Store the reference to the label widget
 
+        self.gui_manager.reset_row_count()
+        self.gui_manager.column_count = 3
+        for skill in self.dictionaries.CLASS_SKILL:
+            label_text = f"{skill}: +0"
+            label = self.gui_manager.create_label(label_text)
+            self.skill_labels[skill] = label
+
+        self.update.update_skill_labels(self.skill_labels)
         super().create_save_button()
 
 

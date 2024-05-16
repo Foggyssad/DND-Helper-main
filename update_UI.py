@@ -71,39 +71,75 @@ class Update:
             label = self.gui_manager.labels[label_key]  # Retrieve the reference to the label widget
             label.config(text=f"Modified {stat}: {modified_stat}")  # Update the GUI label text
 
+    def get_skill_proficiencies(self):
+        # Logic to fetch current skill proficiencies from the GUI
+        skill_proficiencies_text = self.gui_manager.labels["Skill Proficiencies:"].cget("text")
+        # Extract skills from the label text (assuming format "Skill Proficiencies: Skill1, Skill2, ...")
+        skills = skill_proficiencies_text.replace("Skill Proficiencies: ", "").split(", ")
+        return skills
+
+    def update_skill_labels(self, skill_labels):
+        # Get the modified stats values from the GUI
+        selected_values = [int(self.gui_manager.labels["Modified " + stat].cget("text").split(": ")[1]) for stat in
+                           ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]]
+
+        # Get the skill proficiencies
+        skill_proficiencies = self.get_skill_proficiencies()
+
+        # Iterate over the skill labels
+        for skill, label in skill_labels.items():
+            # Find the corresponding stat for the skill
+            stat = self.dictionaries.CLASS_SKILL[skill]
+
+            # Calculate the modifier for the stat
+            stat_index = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"].index(stat)
+            stat_modifier = self.calc.calculate_modifier(selected_values[stat_index])
+
+            # Check if the skill has proficiency bonus
+            proficiency_bonus = 2 if skill in skill_proficiencies else 0
+
+            # Calculate the total modifier
+            total_modifier = stat_modifier + proficiency_bonus
+
+            # Update the label text
+            label.config(text=f"{skill}: +{total_modifier}")
+
     def update_proficiencies(self, *args):
         # Remove previous skill and tool proficiency labels if they exist
         for label_key in ["Skill Proficiencies:", "Tool Proficiencies:"]:
             self.gui_manager.remove_label(f"{label_key}")
 
         selected_background = self.gui_manager.entries["Background:"].cget("text")
-        skill_proficiencies = ""
-        tool_proficiencies = ""
+        selected_class = self.gui_manager.entries["Class:"].cget("text")
+
+        skill_proficiencies = []
+        tool_proficiencies = []
 
         # Define skill and tool proficiencies for each background
-        background_proficiencies = {
-            "Acolyte": {"Skill Proficiencies": "Insight, Religion", "Tool Proficiencies": "None"},
-            "Criminal": {"Skill Proficiencies": "Deception, Stealth", "Tool Proficiencies": "Thieves' Tools"},
-            "Folk Hero": {"Skill Proficiencies": "Animal Handling, Survival",
-                          "Tool Proficiencies": "One type of artisan's tools, vehicles (land)"},
-            "Haunted One": {"Skill Proficiencies": "Choose two from Arcana, Investigation, Religion, and Survival",
-                            "Tool Proficiencies": "None"},
-            "Noble": {"Skill Proficiencies": "History, Persuasion", "Tool Proficiencies": "One type of gaming set"},
-            "Sage": {"Skill Proficiencies": "Arcana, History", "Tool Proficiencies": "None"},
-            "Soldier": {"Skill Proficiencies": "Athletics", "Tool Proficiencies": "Vehicle (land)"}
-            # Add more backgrounds and their proficiencies as needed
-        }
+        background_proficiencies = self.dictionaries.BACKGROUND_PROFICIENCIES
+
+        # Define skill and tool proficiencies for each class
+        class_proficiencies = self.dictionaries.CLASS_PROFICIENCY
 
         # Get proficiencies for the selected background
         if selected_background in background_proficiencies:
-            skill_proficiencies = background_proficiencies[selected_background]["Skill Proficiencies"]
-            tool_proficiencies = background_proficiencies[selected_background]["Tool Proficiencies"]
+            skill_proficiencies.extend(background_proficiencies[selected_background]["Skill Proficiencies"])
+            tool_proficiencies.extend(background_proficiencies[selected_background]["Tool Proficiencies"])
+
+        # Get proficiencies for the selected class
+        if selected_class in class_proficiencies:
+            skill_proficiencies.extend(class_proficiencies[selected_class]["Skill Proficiencies"])
+            tool_proficiencies.extend(class_proficiencies[selected_class]["Tool Proficiencies"])
 
         # Create labels for skill and tool proficiencies
         self.gui_manager.labels["Skill Proficiencies:"] = self.factory.create_label(self.master,
-                                                                        "Skill Proficiencies: " + skill_proficiencies)
-        self.gui_manager.labels["Skill Proficiencies:"].grid(row=self.gui_manager.name_label_row + 1, column=2, sticky='w')
+                                                                                    "Skill Proficiencies: " + ", ".join(
+                                                                                        skill_proficiencies))
+        self.gui_manager.labels["Skill Proficiencies:"].grid(row=self.gui_manager.name_label_row + 1, column=2,
+                                                             sticky='w')
 
         self.gui_manager.labels["Tool Proficiencies:"] = self.factory.create_label(self.master,
-                                                                       "Tool Proficiencies: " + tool_proficiencies)
-        self.gui_manager.labels["Tool Proficiencies:"].grid(row=self.gui_manager.name_label_row + 2, column=2, sticky='w')
+                                                                                   "Tool Proficiencies: " + ", ".join(
+                                                                                       tool_proficiencies))
+        self.gui_manager.labels["Tool Proficiencies:"].grid(row=self.gui_manager.name_label_row + 2, column=2,
+                                                            sticky='w')

@@ -15,7 +15,7 @@ class Calculations:
 
         modified_dex = base_dexterity + dex_modifier_from_race
 
-        dex_modifier = (modified_dex - 10) // 2
+        dex_modifier = self.calculate_modifier(modified_dex)
         return dex_modifier
 
     def calculate_hit_points(self, gui_manager):
@@ -76,3 +76,6 @@ class Calculations:
 
     def get_armour_ac(self, armour_name):
         return self.dictionaries.ARMOUR_AC.get(armour_name, 10)  # Default AC value if armour is not found
+
+    def calculate_modifier(self, stat_value):
+        return (stat_value - 10) // 2
