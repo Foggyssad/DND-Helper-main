@@ -153,17 +153,20 @@ class Update:
         self.update_counter()
         self.update_proficiencies()
         self.update_skill_labels(skill_labels)
+        self.update_armour_class_value()
 
-    def update_armour_dropdown_for_fourth(self):
+    def update_armour_dropdown_for_fourth(self, selected_armour_type=None, selected_armour=None):
         self.gui_manager.remove_label("Armour:")
         self.gui_manager.remove_entry("Armour:")
 
-        # Update the armour dropdown options
-        armour_type = self.gui_manager.entries["Armour Type:"].cget("text")
-        print(armour_type)
-        armours = self.dictionaries.ARMOUR_TYPES.get(armour_type, ["None"])
-        print(armours)
+        if selected_armour_type is None:
+            selected_armour_type = self.gui_manager.entries["Armour Type:"].cget("text")  # Retrieve the value from StringVar
+
+        print(f"Selected Armour Type: {selected_armour_type}")  # Debug print
+
+        armours = self.dictionaries.ARMOUR_TYPES.get(selected_armour_type, ["None"])
+        print(f"Available armours: {armours}")  # Debug print
         self.gui_manager.row_count = 5
-        self.gui_manager.create_dropdown_entry("Armour:", armours, command=self.update_armour_class_value)
+        self.gui_manager.create_dropdown_entry("Armour:", armours, default_value=selected_armour, command=self.update_armour_class_value)
 
         self.calc.calculate_armour_class(self.gui_manager)

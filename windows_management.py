@@ -25,12 +25,27 @@ class Window:
         pass
 
     def clear_window(self):
+        print("Before clearing:")
+        print("Labels:", list(self.gui_manager.labels.keys()))
+        print("Entries:", list(self.gui_manager.entries.keys()))
+        print("Buttons:", list(self.gui_manager.buttons.keys()))
+
         for key in list(self.gui_manager.labels.keys()):
+            print(f"Removing label: {key}")  # Debug print
             self.gui_manager.remove_label(key)
+
         for key in list(self.gui_manager.entries.keys()):
+            print(f"Removing entry: {key}")  # Debug print
             self.gui_manager.remove_entry(key)
+
         for key in list(self.gui_manager.buttons.keys()):
+            print(f"Removing button: {key}")  # Debug print
             self.gui_manager.remove_button(key)
+
+        print("After clearing:")
+        print("Labels:", list(self.gui_manager.labels.keys()))
+        print("Entries:", list(self.gui_manager.entries.keys()))
+        print("Buttons:", list(self.gui_manager.buttons.keys()))
 
     def create_counter_label(self):
         # Create label for displaying remaining points
@@ -113,7 +128,6 @@ class FirstWindow(Window):
         self.update = Update(master, gui_manager)
 
     def create_window(self):
-        print("first window method.")
         self.gui_manager.create_label_entry("Name:")
 
         # Create dropdown entry for Race
@@ -121,7 +135,6 @@ class FirstWindow(Window):
                                                          "Half-Orc", "Aasimar"],
                                                command=self.update.update_counter)
 
-        # Create dropdown entries for Class and Level
         self.gui_manager.create_dropdown_entry("Class:",
                                                ["Fighter", "Wizard", "Rogue", "Cleric", "Barbarian", "Bard",
                                                 "Druid", "Monk", "Ranger", "Sorcerer", "Warlock", "Paladin"],
@@ -129,13 +142,11 @@ class FirstWindow(Window):
         self.gui_manager.create_dropdown_entry("Level:", [str(i) for i in range(1, 21)],
                                                command=self.update.update_counter)
 
-        # Create dropdown entries for original stats and corresponding modified labels
         for i, stat in enumerate(["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]):
             # Create entry for original stats
             self.gui_manager.create_dropdown_entry(stat + ":", [str(i) for i in range(8, 16)],
                                                    command=self.update.update_counter)
 
-            # Create label for modified stats
             modified_label = self.factory.create_label(self.master, "Modified " + stat + f": {str(8)}")
             modified_label.grid(row=i + 4, column=2)  # Start from the fourth row, to the right of original stats
             self.gui_manager.labels["Modified " + stat] = modified_label  # Add the label to the labels dictionary
@@ -156,7 +167,6 @@ class SecondWindow(Window):
         super().clear_window()
         self.gui_manager.reset_row_count()
 
-        # Create new UI elements
         self.gui_manager.create_dropdown_entry("Background:",
                                                ["Acolyte", "Criminal", "Folk Hero", "Haunted One", "Noble", "Sage",
                                                 "Soldier"],
@@ -174,7 +184,6 @@ class SecondWindow(Window):
         self.gui_manager.row_count = 3
         super().create_armor_proficiency_label()
         super().create_hit_points_label()
-        # Create button to transition to the third window
         super().create_to_third_button()
         self.gui_manager.column_count = 2
         self.gui_manager.row_count = 1
@@ -191,12 +200,10 @@ class ThirdWindow(Window):
         super().clear_window()
         self.gui_manager.reset_row_count()
 
-        # Define the fields for the third window
         fields = [
             "History:", "Hair:", "Skin:", "Eyes:", "Height:", "Weight:", "Age:", "Gender:", "Alignment:"
         ]
 
-        # Create new UI elements for the third window
         for field in fields:
             self.gui_manager.create_label_entry(field)
             print(self.gui_manager.entries[field].cget("text"))
@@ -210,19 +217,16 @@ class FourthWindow(Window):
                          character_builder=character_builder)
         self.factory = GUIFactory()
         self.update = Update(master, gui_manager)
-        self.character_builder = character_builder  # Assuming you pass the character data as an argument
+        self.character_builder = character_builder
         self.skill_labels = {}
 
     def create_window(self):
         super().clear_window()
 
-        # Create labels and entries for base characteristics
         self.gui_manager.reset_row_count()
 
-        characteristics = ["name", "race", "character_class", "hit_points", "inventory", "background", "history", "hair",
-                           "skin", "eyes", "height", "weight", "age", "gender", "alignment", "armour_type"]
-
-        print("Creating window with", len(characteristics), "characteristics")
+        characteristics = ["name", "race", "character_class", "hit_points", "inventory", "background", "level", "history", "hair",
+                           "skin", "eyes", "height", "weight", "age", "gender", "alignment"]
 
         self.gui_manager.column_count = 3
         for skill in self.dictionaries.CLASS_SKILL:
@@ -261,14 +265,18 @@ class FourthWindow(Window):
                 self.gui_manager.column_count = 1
                 entry = self.gui_manager.create_entry(default_text)
                 self.gui_manager.entries["Hit Points value"] = entry
-                print(f"Created Hit Points entry: {self.gui_manager.entries['Hit Points value'].get()}")
                 self.gui_manager.column_count = 0
             elif characteristic == "inventory":
-                self.gui_manager.row_count = 4
                 default_text = self.character_builder.armour_type
+                default_text_ = self.character_builder.armour
+
+                if default_text is None:
+                    default_text = "None"
+
+                self.gui_manager.row_count = 4
                 self.gui_manager.create_dropdown_entry("Armour Type:", ["Light", "Medium", "Heavy", "None"], default_value=str(default_text),
-                                                       command=lambda event: self.update.update_armour_dropdown_for_fourth())
-                self.update.update_armour_dropdown_for_fourth()
+                                                       command=self.update.update_armour_dropdown_for_fourth)
+                self.update.update_armour_dropdown_for_fourth(default_text, default_text_)
                 ac = int(self.calc.calculate_armour_class(self.gui_manager))
                 self.gui_manager.create_label("Armour Class:")
                 self.gui_manager.row_count = 6
@@ -276,8 +284,13 @@ class FourthWindow(Window):
                 value_label = self.gui_manager.create_label(ac)
                 self.gui_manager.column_count = 0
                 self.gui_manager.labels["Armor Class Value:"] = value_label
+            elif characteristic == "level":
+                self.gui_manager.create_label(label_text)
+                self.gui_manager.row_count = 8
+                self.gui_manager.column_count = 1
+                self.gui_manager.create_label(default_text)
+                self.gui_manager.column_count = 0
             else:
-                # Use label entry for other characteristics
                 self.gui_manager.create_label_entry(label_text, default_text)
                 print(label_text)
 

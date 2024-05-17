@@ -70,7 +70,11 @@ class GUIManager:
         # More debug prints to ensure everything is correct
         print(f"selected_value before creating dropdown: {selected_value.get()}")
 
-        dropdown = self.factory.create_dropdown(self.master, options, command, variable=selected_value)
+        def callback(event):
+            if command:
+                command(selected_value.get())
+
+        dropdown = self.factory.create_dropdown(self.master, options, command=callback, variable=selected_value)
         dropdown.grid(row=row, column=1)
         self.row_count += 1
         dropdown.config(anchor='w')
