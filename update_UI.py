@@ -23,6 +23,7 @@ class Update:
         self.gui_manager.create_dropdown_entry("Armour:", armours, command=self.update_armour_class_value)
 
         self.calc.calculate_armour_class(self.gui_manager)
+        self.gui_manager.row_count = 1
 
     def update_armour_class_value(self, *args):
         # Calculate the armour class
@@ -131,18 +132,18 @@ class Update:
             skill_proficiencies.extend(class_proficiencies[selected_class]["Skill Proficiencies"])
             tool_proficiencies.extend(class_proficiencies[selected_class]["Tool Proficiencies"])
 
-        # Create labels for skill and tool proficiencies
+        row = self.gui_manager.row_count
+        column = self.gui_manager.column_count
+
         self.gui_manager.labels["Skill Proficiencies:"] = self.factory.create_label(self.master,
                                                                                     "Skill Proficiencies: " + ", ".join(
                                                                                         skill_proficiencies))
-        self.gui_manager.labels["Skill Proficiencies:"].grid(row=self.gui_manager.name_label_row + 1, column=2,
-                                                             sticky='w')
+        self.gui_manager.labels["Skill Proficiencies:"].grid(row=row, column=column, sticky='w')
 
         self.gui_manager.labels["Tool Proficiencies:"] = self.factory.create_label(self.master,
                                                                                    "Tool Proficiencies: " + ", ".join(
                                                                                        tool_proficiencies))
-        self.gui_manager.labels["Tool Proficiencies:"].grid(row=self.gui_manager.name_label_row + 2, column=2,
-                                                            sticky='w')
+        self.gui_manager.labels["Tool Proficiencies:"].grid(row=row + 1, column=column, sticky='w')
 
     def update_skills_prof(self, skill_labels):
         self.update_proficiencies()
@@ -152,3 +153,17 @@ class Update:
         self.update_counter()
         self.update_proficiencies()
         self.update_skill_labels(skill_labels)
+
+    def update_armour_dropdown_for_fourth(self):
+        self.gui_manager.remove_label("Armour:")
+        self.gui_manager.remove_entry("Armour:")
+
+        # Update the armour dropdown options
+        armour_type = self.gui_manager.entries["Armour Type:"].cget("text")
+        print(armour_type)
+        armours = self.dictionaries.ARMOUR_TYPES.get(armour_type, ["None"])
+        print(armours)
+        self.gui_manager.row_count = 5
+        self.gui_manager.create_dropdown_entry("Armour:", armours, command=self.update_armour_class_value)
+
+        self.calc.calculate_armour_class(self.gui_manager)

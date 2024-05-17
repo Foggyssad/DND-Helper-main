@@ -27,7 +27,6 @@ class EventHandler:
         # Update the character_builder instance in the fourth window
         if self.fourth_window:
             self.fourth_window.character_builder = self.data_conservation.character_builder
-
         # Create the fourth window
         if self.fourth_window:
             self.fourth_window.create_window()

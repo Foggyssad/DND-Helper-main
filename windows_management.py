@@ -45,18 +45,19 @@ class Window:
         armor_proficiency = self.dictionaries.CLASS_ARMOUR_PROFICIENCY.get(character_class, "None")
 
         # Create label for displaying armor proficiency
-        armor_proficiency_label = self.factory.create_label(self.master, f"Armor Proficiency: {armor_proficiency}")
-        armor_proficiency_label.grid(row=len(self.gui_manager.labels) + 2, columnspan=2)  # Adjust row and column
+        armor_proficiency_label = self.gui_manager.create_label(f"Armor Proficiency: {armor_proficiency}")
         self.gui_manager.labels["Armor Proficiency"] = armor_proficiency_label
 
     def create_hit_points_label(self):
-        # Calculate hit points based on character level and constitution modifier
+        # Assuming hit points are already calculated and set in character_builder
         hit_points = self.calc.calculate_hit_points(self.gui_manager)
-
         # Create label for displaying hit points
-        self.gui_manager.row_count = 3
-        hit_points = self.gui_manager.create_label(f"Hit Points:{hit_points}")
-        self.gui_manager.labels["Hit Points:"] = hit_points
+        hit_points_label = self.gui_manager.create_label("Hit Points:")
+        self.gui_manager.labels["Hit Points label"] = hit_points_label
+        self.gui_manager.row_count = 4
+        self.gui_manager.column_count = 1
+        hit_points_value_label = self.gui_manager.create_label(str(hit_points))
+        self.gui_manager.labels["Hit Points value"] = hit_points_value_label
 
     def create_to_third_button(self):
         from events import EventHandler
@@ -70,10 +71,10 @@ class Window:
 
     def create_ac_label(self):
 
+        self.gui_manager.column_count = 0
         # Create label for displaying armor class
-        self.gui_manager.row_count = 6
-        self.gui_manager.create_label("Armor Class: ")
-        self.gui_manager.row_count = 6
+        self.gui_manager.create_label("Armor Class:")
+        self.gui_manager.row_count = 5
         self.gui_manager.column_count = 1
         armour_class = self.gui_manager.create_label("10")
         self.gui_manager.labels["Armor Class Value:"] = armour_class
@@ -96,17 +97,6 @@ class Window:
         self.next_button = self.factory.create_button(self.master, "Next", command=self.events.on_next_button_click)
         self.next_button.grid(row=len(self.gui_manager.labels) + 1, columnspan=3, sticky="se")
         self.gui_manager.labels["Next"] = self.next_button
-
-    def create_armour_dropdown(self):
-        self.gui_manager.create_dropdown_entry("Armour Type:", ["Light", "Medium", "Heavy", "None"],
-                                               command=self.update.update_armour_dropdown)
-
-    def create_background_dropdown(self):
-        self.gui_manager.row_count = 0
-        self.gui_manager.create_dropdown_entry("Background:",
-                                               ["Acolyte", "Criminal", "Folk Hero", "Haunted One", "Noble", "Sage",
-                                                "Soldier"],
-                                               command=self.update.update_proficiencies)
 
     def create_save_button(self):
         # Example function to create an "Edit" button
@@ -164,27 +154,30 @@ class SecondWindow(Window):
 
     def create_window(self):
         super().clear_window()
+        self.gui_manager.reset_row_count()
 
         # Create new UI elements
-        super().create_background_dropdown()  # Create background dropdown
+        self.gui_manager.create_dropdown_entry("Background:",
+                                               ["Acolyte", "Criminal", "Folk Hero", "Haunted One", "Noble", "Sage",
+                                                "Soldier"],
+                                               command=self.update.update_proficiencies)  # Create background dropdown
+        self.gui_manager.column_count = 2
         self.update.update_proficiencies()
+        self.gui_manager.column_count = 0
+        self.gui_manager.create_dropdown_entry("Armour Type:", ["Light", "Medium", "Heavy", "None"],
+                                               command=self.update.update_armour_dropdown)
+        self.gui_manager.row_count = 5
+        super().create_ac_label()
+        self.gui_manager.row_count = 2
+        self.update.update_armour_dropdown()
+        self.gui_manager.column_count = 0
+        self.gui_manager.row_count = 3
         super().create_armor_proficiency_label()
-        super().create_armour_dropdown()
         super().create_hit_points_label()
-        super().create_ac_label()  # Recreate counter label
-
-        # Move the armor proficiency label to the appropriate row and column
-        if "Armor Proficiency:" in self.gui_manager.labels:
-            self.gui_manager.labels["Armor Proficiency:"].grid(row=len(self.gui_manager.labels), column=0, columnspan=2,
-                                                               sticky='w')
-
-        # Move the hit points label to the appropriate row and column
-        if "Hit Points:" in self.gui_manager.labels:
-            self.gui_manager.labels["Hit Points:"].grid(row=len(self.gui_manager.labels) - 1, column=2, columnspan=2,
-                                                        sticky='w')
-
         # Create button to transition to the third window
         super().create_to_third_button()
+        self.gui_manager.column_count = 2
+        self.gui_manager.row_count = 1
 
 
 class ThirdWindow(Window):
@@ -196,6 +189,7 @@ class ThirdWindow(Window):
 
     def create_window(self):
         super().clear_window()
+        self.gui_manager.reset_row_count()
 
         # Define the fields for the third window
         fields = [
@@ -225,8 +219,8 @@ class FourthWindow(Window):
         # Create labels and entries for base characteristics
         self.gui_manager.reset_row_count()
 
-        characteristics = ["name", "race", "character_class", "hit_points", "inventory", "armor_class", "background", "history", "hair",
-                           "skin", "eyes", "height", "weight", "age", "gender", "alignment"]
+        characteristics = ["name", "race", "character_class", "hit_points", "inventory", "background", "history", "hair",
+                           "skin", "eyes", "height", "weight", "age", "gender", "alignment", "armour_type"]
 
         print("Creating window with", len(characteristics), "characteristics")
 
@@ -238,14 +232,16 @@ class FourthWindow(Window):
 
         self.gui_manager.reset_row_count()
         for characteristic in characteristics:
-            label_text = characteristic.replace('_', ' ').capitalize() + ":"
+            label_text = characteristic.replace('_', ' ').title() + ":"
             default_text = getattr(self.character_builder, characteristic, "")
             print(default_text)
             if characteristic == "background":
                 # Call function for background
                 self.gui_manager.create_dropdown_entry("Background:", ["Acolyte", "Criminal", "Folk Hero", "Haunted One", "Noble", "Sage",
                                                 "Soldier"], default_value=str(default_text), command=lambda event: self.update.update_skills_prof(self.skill_labels))
+                self.gui_manager.column_count = 2
                 self.update.update_proficiencies()
+                self.gui_manager.column_count = 0
                 print(default_text)
             elif characteristic == "race":
                 # Call function for race
@@ -259,10 +255,31 @@ class FourthWindow(Window):
                                                 "Druid", "Monk", "Ranger", "Sorcerer", "Warlock", "Paladin"], default_value=str(default_text),
                                                        command=lambda event: self.update.update_skills_prof(self.skill_labels))
                 print(default_text)
-
+            elif characteristic == "hit_points":
+                self.gui_manager.create_label(label_text)
+                self.gui_manager.row_count = 3
+                self.gui_manager.column_count = 1
+                entry = self.gui_manager.create_entry(default_text)
+                self.gui_manager.entries["Hit Points value"] = entry
+                print(f"Created Hit Points entry: {self.gui_manager.entries['Hit Points value'].get()}")
+                self.gui_manager.column_count = 0
+            elif characteristic == "inventory":
+                self.gui_manager.row_count = 4
+                default_text = self.character_builder.armour_type
+                self.gui_manager.create_dropdown_entry("Armour Type:", ["Light", "Medium", "Heavy", "None"], default_value=str(default_text),
+                                                       command=lambda event: self.update.update_armour_dropdown_for_fourth())
+                self.update.update_armour_dropdown_for_fourth()
+                ac = int(self.calc.calculate_armour_class(self.gui_manager))
+                self.gui_manager.create_label("Armour Class:")
+                self.gui_manager.row_count = 6
+                self.gui_manager.column_count = 1
+                value_label = self.gui_manager.create_label(ac)
+                self.gui_manager.column_count = 0
+                self.gui_manager.labels["Armor Class Value:"] = value_label
             else:
                 # Use label entry for other characteristics
                 self.gui_manager.create_label_entry(label_text, default_text)
+                print(label_text)
 
         self.gui_manager.reset_row_count()
         for stat in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]:

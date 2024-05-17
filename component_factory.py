@@ -14,8 +14,10 @@ class LabelComponent(GUIComponent):
 
 
 class EntryComponent(GUIComponent):
-    def create(self, master, **kwargs):
-        return tk.Entry(master, **kwargs)
+    def create(self, master, default_text="", **kwargs):
+        entry = tk.Entry(master, **kwargs)
+        entry.insert(0, default_text)
+        return entry
 
 
 class DropdownComponent:

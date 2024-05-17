@@ -22,7 +22,7 @@ class GUIManager:
         column = self.column_count
         print("Creating label at row", row, "with text:", label_text)
         label = self.factory.create_label(self.master, label_text)
-        label.grid(row=row, column=column, sticky='w')
+        label.grid(row=row, column=column)
         entry = self.factory.create_entry(self.master)
         entry.insert("end", default_text)
         entry.grid(row=row, column=column + 1, padx=5)
@@ -33,12 +33,22 @@ class GUIManager:
         self.name_label_row = row
         return entry
 
+    def create_entry(self, default_text=""):
+        row = self.row_count
+        column = self.column_count
+        print("Creating entry at row", row, "and column", column, "with default text:", default_text)
+        entry = self.factory.create_entry(self.master, default_text)
+        entry.grid(row=row, column=column, sticky='w')
+        self.row_count += 1
+        self.add_entry(default_text, entry)
+        return entry
+
     def create_label(self, label_text):
         row = self.row_count
         column = self.column_count
         print("Creating label at row", row, "and column", column, "with text:", label_text)
         label = self.factory.create_label(self.master, label_text)
-        label.grid(row=row, column=column, sticky='w')
+        label.grid(row=row, column=column)
         self.row_count += 1
         self.add_label(label_text, label)
         return label

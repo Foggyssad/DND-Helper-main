@@ -25,8 +25,8 @@ class GUIFactory(AbstractFactory):
     def create_label(self, master, text):
         return LabelComponent().create(master, text=text)
 
-    def create_entry(self, master):
-        return EntryComponent().create(master)
+    def create_entry(self, master, default_text=""):
+        return EntryComponent().create(master, default_text=default_text)
 
     def create_dropdown(self, master, options, command, variable=None):
         return DropdownComponent().create(master, options=options, command=command, variable=variable)
