@@ -37,7 +37,11 @@ class EventHandler:
         self.characters_window.create_window()
 
     def on_edit_character_button_click(self):
-        self.data_conservation.save_data()
         self.fourth_window.character_builder = self.data_conservation.character_builder
         print(self.fourth_window.character_builder.name)
         self.fourth_window.create_window()
+
+    def on_import_button_click(self):
+        self.data_conservation.load_character_from_json("character_sheet.json", self.characters_window.character_builder)
+        self.data_conservation.character_builder = self.characters_window.character_builder
+        self.characters_window.create_window()

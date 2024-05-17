@@ -68,3 +68,35 @@ class DataConservation:
         # Save updated CharacterBuilder instance to a JSON file
         with open(filename, 'w') as file:
             json.dump(self.character_builder.__dict__, file)
+
+    def load_character_from_json(self, json_file, character_builder):
+        with open(json_file, 'r') as file:
+            data = json.load(file)
+
+        setters = {
+            'name': character_builder.set_name,
+            'race': character_builder.set_race,
+            'character_class': character_builder.set_character_class,
+            'stats': character_builder.set_stats,
+            'level': character_builder.set_level,
+            'hit_points': character_builder.set_hit_points,
+            'skill_proficiencies': character_builder.set_skill_proficiencies,
+            'tool_proficiencies': character_builder.set_tool_proficiencies,
+            'inventory': character_builder.set_inventory,
+            'armor_class': character_builder.set_armor_class,
+            'background': character_builder.set_background,
+            'history': character_builder.set_history,
+            'hair': character_builder.set_hair,
+            'skin': character_builder.set_skin,
+            'eyes': character_builder.set_eyes,
+            'height': character_builder.set_height,
+            'weight': character_builder.set_weight,
+            'age': character_builder.set_age,
+            'gender': character_builder.set_gender,
+            'alignment': character_builder.set_alignment,
+            'armour_type': character_builder.set_armour_type,
+            'armour': character_builder.set_armour
+        }
+
+        for key, setter in setters.items():
+            setter(data.get(key))

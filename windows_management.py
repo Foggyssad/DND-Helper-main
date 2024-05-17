@@ -129,7 +129,10 @@ class FirstWindow(Window):
 
     def create_window(self):
         self.gui_manager.create_label_entry("Name:")
-
+        self.gui_manager.row_count = 0
+        self.gui_manager.column_count = 2
+        self.gui_manager.create_button("Import", command=self.events.on_import_button_click)
+        self.gui_manager.column_count = 0
         # Create dropdown entry for Race
         self.gui_manager.create_dropdown_entry("Race:", ["Aarakocra", "Dragonborn", "Dwarf", "Elf", "Genasi",
                                                          "Half-Orc", "Aasimar"],

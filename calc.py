@@ -69,8 +69,8 @@ class Calculations:
         else:  # Heavy armour
             armour_class = armour_ac
 
-        # Update the armor class value label
-        gui_manager.labels["Armor Class Value:"].config(text=str(armour_class))
+        if "Armour Class Value:" in gui_manager.labels:
+            gui_manager.labels["Armor Class Value:"].config(text=str(armour_class))
 
         return armour_class
 
