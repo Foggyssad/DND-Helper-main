@@ -278,7 +278,7 @@ class FourthWindow(Window):
 
                 self.gui_manager.row_count = 4
                 self.gui_manager.create_dropdown_entry("Armour Type:", ["Light", "Medium", "Heavy", "None"], default_value=str(default_text),
-                                                       command=self.update.update_armour_dropdown_for_fourth)
+                                                       command=self.update.update_armour_dropdown_conj_func)
                 self.update.update_armour_dropdown_for_fourth(default_text, default_text_)
                 ac = int(self.calc.calculate_armour_class(self.gui_manager))
                 self.gui_manager.create_label("Armour Class:")

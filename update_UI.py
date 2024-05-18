@@ -23,6 +23,7 @@ class Update:
         self.gui_manager.create_dropdown_entry("Armour:", armours, command=self.update_armour_class_value)
 
         self.calc.calculate_armour_class(self.gui_manager)
+        self.update_armour_class_value()
         self.gui_manager.row_count = 1
 
     def update_armour_class_value(self, *args):
@@ -170,3 +171,7 @@ class Update:
         self.gui_manager.create_dropdown_entry("Armour:", armours, default_value=selected_armour, command=self.update_armour_class_value)
 
         self.calc.calculate_armour_class(self.gui_manager)
+
+    def update_armour_dropdown_conj_func(self, selected_armour_type=None, selected_armour=None):
+        self.update_armour_dropdown_for_fourth(selected_armour_type, selected_armour)
+        self.update_armour_class_value()
