@@ -100,3 +100,10 @@ class DataConservation:
 
         for key, setter in setters.items():
             setter(data.get(key))
+
+        modified_stats = {}
+        for stat in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]:
+            modified_stat_value = int(data["stats"][stat])
+            modified_stats[stat] = modified_stat_value
+        character_builder.set_stats(modified_stats)
+        print(character_builder.stats)

@@ -3,6 +3,7 @@ from dictionaries import Dictionaries
 from gui_factory import GUIFactory
 from calc import Calculations
 from update_UI import Update
+from data_conservation import DataConservation
 
 
 class Window:
@@ -17,6 +18,7 @@ class Window:
         self.fourth_window = fourth_window
         self.update = Update(master, gui_manager)
         self.character_builder = character_builder
+        self.data_conservation = DataConservation(gui_manager)
 
     def set_event_handler(self, event_handler):
         self.events = event_handler
@@ -298,12 +300,18 @@ class FourthWindow(Window):
                 print(label_text)
 
         self.gui_manager.reset_row_count()
+        print(self.events.tracker)
         for stat in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]:
-            self.gui_manager.column_count = 2
-            modified_stat_value = int(self.gui_manager.labels["Modified " + stat].cget("text").split(": ")[1])
-            label = self.gui_manager.create_label(f"Modified {stat}: {modified_stat_value}")
-            self.gui_manager.labels[f"Modified {stat}"] = label  # Store the reference to the label widget
-
+            if self.events.tracker is False:
+                self.gui_manager.column_count = 2
+                modified_stat_value = int(self.gui_manager.labels["Modified " + stat].cget("text").split(": ")[1])
+                label = self.gui_manager.create_label(f"Modified {stat}: {modified_stat_value}")
+                self.gui_manager.labels[f"Modified {stat}"] = label
+            else:
+                self.gui_manager.column_count = 2
+                modified_stat_value = self.character_builder.stats[stat]
+                label = self.gui_manager.create_label(f"Modified {stat}: {modified_stat_value}")
+                self.gui_manager.labels[f"Modified {stat}"] = label
         self.update.update_skill_labels(self.skill_labels)
         super().create_save_button()
 

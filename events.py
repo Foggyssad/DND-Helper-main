@@ -8,6 +8,7 @@ class EventHandler:
         self.master = master
         self.data_conservation = DataConservation(gui_manager)
         self.character_builder = CharacterBuilder()
+        self.tracker = False
 
     def set_windows(self, first_window, second_window, third_window, fourth_window, characters_window):
         self.first_window = first_window
@@ -42,6 +43,7 @@ class EventHandler:
         self.fourth_window.create_window()
 
     def on_import_button_click(self):
+        self.tracker = True
         self.data_conservation.load_character_from_json("character_sheet.json", self.characters_window.character_builder)
         self.data_conservation.character_builder = self.characters_window.character_builder
         self.characters_window.create_window()
