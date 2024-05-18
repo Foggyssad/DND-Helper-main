@@ -1,28 +1,28 @@
 class CharacterBuilder:
     def __init__(self):
-        self.name = None
-        self.race = None
-        self.character_class = None
-        self.stats = None
-        self.level = None
-        self.hit_points = None
-        self.skill_proficiencies = None
-        self.tool_proficiencies = None
-        self.inventory = None
-        self.armor_class = None
-        self.background = None
-        self.history = None
-        self.hair = None
-        self.skin = None
-        self.eyes = None
-        self.height = None
-        self.weight = None
-        self.age = None
-        self.gender = None
-        self.alignment = None
-        self.armour_type = None
-        self.armour = None
-        self.stats_before_mod = None
+        self.name = ""
+        self.race = ""
+        self.character_class = ""
+        self.level = 0
+        self.background = ""
+        self.armour = ""
+        self.history = ""
+        self.hair = ""
+        self.skin = ""
+        self.eyes = ""
+        self.height = ""
+        self.weight = 0
+        self.age = 0
+        self.gender = ""
+        self.alignment = ""
+        self.armour_type = ""
+        self.stats = {}
+        self.stats_before_mod = {}
+        self.hit_points = ""
+        self.skill_proficiencies = ""
+        self.tool_proficiencies = ""
+        self.inventory = ""
+        self.armor_class = ""
 
     def set_armour(self, armour):
         self.armour = armour

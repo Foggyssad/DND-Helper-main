@@ -27,48 +27,30 @@ class Window:
         pass
 
     def clear_window(self):
-        print("Before clearing:")
-        print("Labels:", list(self.gui_manager.labels.keys()))
-        print("Entries:", list(self.gui_manager.entries.keys()))
-        print("Buttons:", list(self.gui_manager.buttons.keys()))
-
         for key in list(self.gui_manager.labels.keys()):
-            print(f"Removing label: {key}")  # Debug print
             self.gui_manager.remove_label(key)
 
         for key in list(self.gui_manager.entries.keys()):
-            print(f"Removing entry: {key}")  # Debug print
             self.gui_manager.remove_entry(key)
 
         for key in list(self.gui_manager.buttons.keys()):
-            print(f"Removing button: {key}")  # Debug print
             self.gui_manager.remove_button(key)
 
-        print("After clearing:")
-        print("Labels:", list(self.gui_manager.labels.keys()))
-        print("Entries:", list(self.gui_manager.entries.keys()))
-        print("Buttons:", list(self.gui_manager.buttons.keys()))
-
     def create_counter_label(self):
-        # Create label for displaying remaining points
         self.counter_label = self.factory.create_label(self.master, "Remaining Points: 27")
-        self.counter_label.grid(row=len(self.gui_manager.labels), columnspan=3, sticky="se")  # Adjust row and column
+        self.counter_label.grid(row=len(self.gui_manager.labels), columnspan=3, sticky="se")
         self.gui_manager.labels["Counter"] = self.counter_label
 
     def create_armor_proficiency_label(self):
         character_class = self.gui_manager.entries["Class:"].cget("text")
 
-        # Get the armor proficiency for the character class
         armor_proficiency = self.dictionaries.CLASS_ARMOUR_PROFICIENCY.get(character_class, "None")
 
-        # Create label for displaying armor proficiency
         armor_proficiency_label = self.gui_manager.create_label(f"Armor Proficiency: {armor_proficiency}")
         self.gui_manager.labels["Armor Proficiency"] = armor_proficiency_label
 
     def create_hit_points_label(self):
-        # Assuming hit points are already calculated and set in character_builder
         hit_points = self.calc.calculate_hit_points(self.gui_manager)
-        # Create label for displaying hit points
         hit_points_label = self.gui_manager.create_label("Hit Points:")
         self.gui_manager.labels["Hit Points label"] = hit_points_label
         self.gui_manager.row_count = 4
@@ -89,7 +71,6 @@ class Window:
     def create_ac_label(self):
 
         self.gui_manager.column_count = 0
-        # Create label for displaying armor class
         self.gui_manager.create_label("Armor Class:")
         self.gui_manager.row_count = 5
         self.gui_manager.column_count = 1
@@ -134,8 +115,10 @@ class FirstWindow(Window):
         self.gui_manager.row_count = 0
         self.gui_manager.column_count = 2
         self.gui_manager.create_button("Import", command=self.events.on_import_button_click)
+        self.gui_manager.row_count = 3
+        self.gui_manager.create_button("Next", command=self.events.on_next_button_click)
         self.gui_manager.column_count = 0
-        # Create dropdown entry for Race
+        self.gui_manager.row_count = 1
         self.gui_manager.create_dropdown_entry("Race:", ["Aarakocra", "Dragonborn", "Dwarf", "Elf", "Genasi",
                                                          "Half-Orc", "Aasimar"],
                                                command=self.update.update_counter)
@@ -155,8 +138,6 @@ class FirstWindow(Window):
             modified_label = self.factory.create_label(self.master, "Modified " + stat + f"{str(8)}")
             modified_label.grid(row=i + 4, column=2)  # Start from the fourth row, to the right of original stats
             self.gui_manager.labels["Modified " + stat] = modified_label  # Add the label to the labels dictionary
-
-        super().create_next_button()
 
         self.update.update_counter()
 
@@ -211,7 +192,6 @@ class ThirdWindow(Window):
 
         for field in fields:
             self.gui_manager.create_label_entry(field)
-            print(self.gui_manager.entries[field].cget("text"))
 
         super().create_submit_button()
 
@@ -243,27 +223,20 @@ class FourthWindow(Window):
         for characteristic in characteristics:
             label_text = characteristic.replace('_', ' ').title() + ":"
             default_text = getattr(self.character_builder, characteristic, "")
-            print(default_text)
             if characteristic == "background":
-                # Call function for background
                 self.gui_manager.create_dropdown_entry("Background:", ["Acolyte", "Criminal", "Folk Hero", "Haunted One", "Noble", "Sage",
                                                 "Soldier"], default_value=str(default_text), command=lambda event: self.update.update_skills_prof(self.skill_labels))
                 self.gui_manager.column_count = 2
                 self.update.update_proficiencies()
                 self.gui_manager.column_count = 0
-                print(default_text)
             elif characteristic == "race":
-                # Call function for race
                 self.gui_manager.create_dropdown_entry("Race:", ["Aarakocra", "Dragonborn", "Dwarf", "Elf", "Genasi",
                                                                  "Half-Orc", "Aasimar"], default_value=str(default_text),
                                                        command=lambda event: self.update.update_skills_prof_race(self.skill_labels))
-                print(default_text)
             elif characteristic == "character_class":
-                # Call function for race
                 self.gui_manager.create_dropdown_entry("Class:", ["Fighter", "Wizard", "Rogue", "Cleric", "Barbarian", "Bard",
                                                 "Druid", "Monk", "Ranger", "Sorcerer", "Warlock", "Paladin"], default_value=str(default_text),
                                                        command=lambda event: self.update.update_skills_prof(self.skill_labels))
-                print(default_text)
             elif characteristic == "hit_points":
                 self.gui_manager.create_label(label_text)
                 self.gui_manager.row_count = 3
@@ -293,14 +266,13 @@ class FourthWindow(Window):
                 self.gui_manager.create_label(label_text)
                 self.gui_manager.row_count = 8
                 self.gui_manager.column_count = 1
-                self.gui_manager.create_label(default_text)
+                label = self.gui_manager.create_label(default_text)
+                self.gui_manager.entries["Level:"] = label
                 self.gui_manager.column_count = 0
             else:
                 self.gui_manager.create_label_entry(label_text, default_text)
-                print(label_text)
 
         self.gui_manager.reset_row_count()
-        print(self.events.tracker)
         self.gui_manager.row_count = 10
         self.gui_manager.column_count = 2
         for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
@@ -315,36 +287,34 @@ class FourthWindow(Window):
 
         self.gui_manager.row_count = 0
         self.gui_manager.column_count = 2
-        print(self.events.tracker)
-        print(self.gui_manager.entries["Strength:"].cget("text"))
         if self.events.tracker is False:
             for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
                 self.gui_manager.create_dropdown_entry(stat, [str(i) for i in range(8, 16)],
                                                        default_value=self.gui_manager.entries[stat].cget("text"),
-                                                       command=self.update.update_counter)
+                                                       command=lambda event: self.update.update_based_on_stats_before_mod(self.skill_labels))
         else:
             for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
-                # Ensure the key exists in stats_before_mod dictionary
                 if stat in self.character_builder.stats_before_mod:
-                    # Get the default value for the dropdown from stats_before_mod
                     default_value = str(
-                        self.character_builder.stats_before_mod[stat])  # Ensure default_value is a string
-
-                    # Print debug information
-                    print(f"{stat} {self.character_builder.stats_before_mod[stat]}")
-                    print(f"Setting default_value for {stat}: {default_value}")
-
-                    # Create the dropdown entry with the correct default value
+                        self.character_builder.stats_before_mod[stat])
                     self.gui_manager.create_dropdown_entry(
-                        stat,  # The label text for the dropdown
-                        [str(i) for i in range(8, 16)],  # Options for the dropdown
-                        default_value=default_value,  # Set the default value for the dropdown
-                        command=lambda event: self.update.update_based_on_stats_before_mod(self.skill_labels)  # Command to call when the dropdown value changes
+                        stat,
+                        [str(i) for i in range(8, 16)],
+                        default_value=default_value,
+                        command=lambda event: self.update.update_based_on_stats_before_mod(self.skill_labels)
                     )
-                    self.update.update_based_on_stats_before_mod(self.skill_labels)
+        self.update.update_based_on_stats_before_mod(self.skill_labels)
 
         self.update.update_skill_labels(self.skill_labels)
-        super().create_save_button()
+        self.gui_manager.column_count = 3
+        self.gui_manager.row_count = 6
+        self.gui_manager.create_label("Remaining Points:")
+        self.update.update_counter()
+        self.gui_manager.row_count = 6
+        self.gui_manager.column_count = 2
+        self.gui_manager.row_count = 17
+        self.gui_manager.create_button("Save", command=self.events.on_save_button_click)
+        self.gui_manager.row_count = 6
 
 
 class CharactersWindow(Window):
@@ -353,7 +323,7 @@ class CharactersWindow(Window):
                          character_builder=character_builder)
         self.factory = GUIFactory()
         self.update = Update(master, gui_manager)
-        self.character_builder = character_builder  # Assuming you pass the character data as an argument
+        self.character_builder = character_builder
 
     def create_window(self):
         super().clear_window()
@@ -366,5 +336,3 @@ class CharactersWindow(Window):
         self.gui_manager.create_label(self.character_builder.name)
         self.gui_manager.column_count = 0
         self.gui_manager.create_button("Edit Character", command=self.events.on_edit_character_button_click)
-
-

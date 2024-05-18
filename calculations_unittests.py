@@ -49,7 +49,17 @@ class TestCalculations(unittest.TestCase):
         armour_ac = self.calculations.get_armour_ac("Breastplate")
         self.assertEqual(armour_ac, 14)  # Chainmail AC is 16 in the dictionary
 
-        
+    def test_calculate_modifier(self):
+        # Testing the calculate_modifier function with various inputs
+        self.assertEqual(self.calculations.calculate_modifier(10), 0)
+        self.assertEqual(self.calculations.calculate_modifier(12), 1)
+        self.assertEqual(self.calculations.calculate_modifier(14), 2)
+        self.assertEqual(self.calculations.calculate_modifier(8), -1)
+        self.assertEqual(self.calculations.calculate_modifier(6), -2)
+        self.assertEqual(self.calculations.calculate_modifier(18), 4)
+        self.assertEqual(self.calculations.calculate_modifier(1), -5)
+        self.assertEqual(self.calculations.calculate_modifier(20), 5)
+
 
 if __name__ == '__main__':
     unittest.main()

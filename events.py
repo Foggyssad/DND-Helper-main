@@ -25,10 +25,8 @@ class EventHandler:
 
     def submit_character(self):
         self.data_conservation.save_data()
-        # Update the character_builder instance in the fourth window
         if self.fourth_window:
             self.fourth_window.character_builder = self.data_conservation.character_builder
-        # Create the fourth window
         if self.fourth_window:
             self.fourth_window.create_window()
 
@@ -39,7 +37,6 @@ class EventHandler:
 
     def on_edit_character_button_click(self):
         self.fourth_window.character_builder = self.data_conservation.character_builder
-        print(self.fourth_window.character_builder.name)
         self.fourth_window.create_window()
 
     def on_import_button_click(self):

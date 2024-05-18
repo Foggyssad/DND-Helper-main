@@ -12,28 +12,27 @@ class Dictionaries:
         "Cleric": "Light armor, medium armor, shields",
         "Barbarian": "Light armor, medium armor, shields",
         "Paladin": "All armor, shields"
-        # Add more classes and their armor proficiencies as needed
     }
 
     CLASS_SKILL = {
-            "Acrobatics": "Dexterity",
-            "Animal Handling": "Wisdom",
-            "Arcana": "Intelligence",
-            "Athletics": "Strength",
-            "Deception": "Charisma",
-            "History": "Intelligence",
-            "Insight": "Wisdom",
-            "Intimidation": "Charisma",
-            "Investigation": "Intelligence",
-            "Medicine": "Wisdom",
-            "Nature": "Intelligence",
-            "Perception": "Wisdom",
-            "Performance": "Charisma",
-            "Persuasion": "Charisma",
-            "Religion": "Intelligence",
-            "Sleight of Hand": "Dexterity",
-            "Stealth": "Dexterity",
-            "Survival": "Wisdom"
+            "Acrobatics": "Dexterity:",
+            "Animal Handling": "Wisdom:",
+            "Arcana": "Intelligence:",
+            "Athletics": "Strength:",
+            "Deception": "Charisma:",
+            "History": "Intelligence:",
+            "Insight": "Wisdom:",
+            "Intimidation": "Charisma:",
+            "Investigation": "Intelligence:",
+            "Medicine": "Wisdom:",
+            "Nature": "Intelligence:",
+            "Perception": "Wisdom:",
+            "Performance": "Charisma:",
+            "Persuasion": "Charisma:",
+            "Religion": "Intelligence:",
+            "Sleight of Hand": "Dexterity:",
+            "Stealth": "Dexterity:",
+            "Survival": "Wisdom:"
         }
 
     CLASS_PROFICIENCY = {
@@ -70,7 +69,6 @@ class Dictionaries:
                                         "Religion"], "Tool Proficiencies": []},
             "Wizard": {"Skill Proficiencies": ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"],
                        "Tool Proficiencies": []}
-            # Add more classes and their proficiencies as needed
         }
 
     BACKGROUND_PROFICIENCIES = {
@@ -84,7 +82,6 @@ class Dictionaries:
                   "Tool Proficiencies": ["One type of gaming set"]},
         "Sage": {"Skill Proficiencies": ["Arcana", "History"], "Tool Proficiencies": []},
         "Soldier": {"Skill Proficiencies": ["Athletics"], "Tool Proficiencies": ["Vehicle (land)"]}
-        # Add more backgrounds and their proficiencies as needed
     }
 
     CLASS_HIT_DICE = {
@@ -110,7 +107,6 @@ class Dictionaries:
         "Genasi": {"Constitution:": +2},
         "Half-Orc": {"Strength:": +2, "Constitution:": +1},
         "Aasimar": {"Dexterity:": +2, "Wisdom:": +1}
-        # Add more races and their stat modifiers as needed
     }
 
     ARMOUR_TYPES = {

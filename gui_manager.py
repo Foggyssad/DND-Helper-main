@@ -20,13 +20,11 @@ class GUIManager:
     def create_label_entry(self, label_text, default_text=""):
         row = self.row_count
         column = self.column_count
-        print("Creating label at row", row, "with text:", label_text)
         label = self.factory.create_label(self.master, label_text)
         label.grid(row=row, column=column)
         entry = self.factory.create_entry(self.master)
         entry.insert("end", default_text)
         entry.grid(row=row, column=column + 1, padx=5)
-        print("Creating entry at row", row, "with default text:", default_text)
         self.row_count += 1
         self.add_label(label_text, label)
         self.add_entry(label_text, entry)
@@ -36,7 +34,6 @@ class GUIManager:
     def create_entry(self, default_text=""):
         row = self.row_count
         column = self.column_count
-        print("Creating entry at row", row, "and column", column, "with default text:", default_text)
         entry = self.factory.create_entry(self.master, default_text)
         entry.grid(row=row, column=column, sticky='w')
         self.row_count += 1
@@ -46,7 +43,6 @@ class GUIManager:
     def create_label(self, label_text):
         row = self.row_count
         column = self.column_count
-        print("Creating label at row", row, "and column", column, "with text:", label_text)
         label = self.factory.create_label(self.master, label_text)
         label.grid(row=row, column=column)
         self.row_count += 1
@@ -59,17 +55,12 @@ class GUIManager:
         label = self.factory.create_label(self.master, label_text)
         label.grid(row=row, column=column)
 
-        # Create a variable to store the selected value
         selected_value = tk.StringVar(self.master)
 
         if default_value is None or default_value not in options:
             default_value = options[0]
-        print(f"Setting default_value: {default_value}")  # Debug print
 
         selected_value.set(default_value)
-
-        # More debug prints to ensure everything is correct
-        print(f"selected_value before creating dropdown: {selected_value.get()}")
 
         def callback(event):
             if command:
@@ -82,15 +73,11 @@ class GUIManager:
         self.add_label(label_text, label)
         self.add_entry(label_text, dropdown)
 
-        # Final debug print to confirm the value after creating the dropdown
-        print(f"Dropdown current value after creation: {selected_value.get()}")
-
         return dropdown
 
     def create_button(self, button_text, command=None):
         row = self.row_count
         column = self.column_count
-        print("Creating button at row", row, "and column", column, "with text:", button_text)
         button = self.factory.create_button(self.master, button_text, command)
         button.grid(row=row, column=column)
         self.row_count += 1

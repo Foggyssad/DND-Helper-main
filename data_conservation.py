@@ -31,38 +31,27 @@ class DataConservation:
         stats_before_mod = {}
         for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
             stat_before_mod_value = int(gui_manager.entries[stat].cget("text"))
-            print(stat_before_mod_value)
             stats_before_mod[stat] = stat_before_mod_value
         character_builder.set_stats_before_mod(stats_before_mod)
-        print(character_builder.stats_before_mod)
 
         character_builder.set_level(int(gui_manager.entries["Level:"].cget("text")))
 
     def set_additional_data(self, character_builder, gui_manager):
         character_builder.set_background(gui_manager.entries["Background:"].cget("text"))
         character_builder.set_armour_type(gui_manager.entries["Armour Type:"].cget("text"))
-        print(f"Armour Type from gui: {gui_manager.entries["Armour Type:"].cget("text")}")
-        print(f"Armour Type from builder: {character_builder.armour_type}")
         character_builder.set_armour(gui_manager.entries["Armour:"].cget("text"))
-        print(f"Armour from gui: {gui_manager.entries["Armour:"].cget("text")}")
-        print(f"Armour from builder: {character_builder.armour}")
         character_builder.set_inventory(gui_manager.entries["Armour:"].cget("text"))
         character_builder.set_armor_class(gui_manager.labels["Armor Class Value:"].cget("text"))
         character_builder.set_skill_proficiencies(gui_manager.labels["Skill Proficiencies:"].cget("text"))
         character_builder.set_tool_proficiencies(gui_manager.labels["Tool Proficiencies:"].cget("text"))
         if "Hit Points value" in gui_manager.entries:
             hit_points_text = gui_manager.entries["Hit Points value"].get()
-            print(f"Hit points value from entries: {hit_points_text}")
         else:
-            print("entry 'Hit points value' was not found")
             hit_points_text = gui_manager.labels["Hit Points value"].cget("text")
-        hit_points_value = hit_points_text.strip()  # No need to replace here, just strip any extra spaces
+        hit_points_value = hit_points_text.strip()
         character_builder.set_hit_points(hit_points_value)
-        print(f"Hit Points from GUI: {hit_points_text}")
         character_builder.set_hit_points(hit_points_text)
-        print(f"Hit Points from character_builder: {character_builder.hit_points}")
         character_builder.set_history(gui_manager.entries["History:"].get())
-        print(f"History from character_builder: {character_builder.history}")
         character_builder.set_hair(gui_manager.entries["Hair:"].get())
         character_builder.set_skin(gui_manager.entries["Skin:"].get())
         character_builder.set_eyes(gui_manager.entries["Eyes:"].get())
@@ -116,11 +105,9 @@ class DataConservation:
             stat_before_mod_value = int(data["stats_before_mod"][stat])
             stats_before_mod[stat] = stat_before_mod_value
         character_builder.set_stats(stats_before_mod)
-        print(character_builder.stats_before_mod)
 
         mod_stats = {}
         for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
             mod_stat_value = int(data["stats"][stat])
             mod_stats[stat] = mod_stat_value
         character_builder.set_stats(mod_stats)
-        print(character_builder.stats)
