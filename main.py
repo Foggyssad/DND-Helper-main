@@ -8,6 +8,7 @@ from gui_manager import GUIManager
 
 def main():
     root = tk.Tk()
+    root.title("Dungeons & Dragons Helper")
 
     # Instantiate GUI-related objects
     gui_manager = GUIManager(root)

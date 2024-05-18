@@ -22,6 +22,7 @@ class CharacterBuilder:
         self.alignment = None
         self.armour_type = None
         self.armour = None
+        self.stats_before_mod = None
 
     def set_armour(self, armour):
         self.armour = armour
@@ -45,6 +46,10 @@ class CharacterBuilder:
 
     def set_stats(self, stats):
         self.stats = stats
+        return self
+
+    def set_stats_before_mod(self, stats_before_mod):
+        self.stats_before_mod = stats_before_mod
         return self
 
     def set_hit_points(self, hit_points):
@@ -115,13 +120,13 @@ class CharacterBuilder:
         return Character(self.name, self.race, self.character_class, self.stats, self.level, self.hit_points,
                          self.skill_proficiencies, self.tool_proficiencies, self.inventory, self.armor_class,
                          self.background, self.history, self.hair, self.skin, self.eyes, self.height, self.weight,
-                         self.age, self.gender, self.alignment, self.armour_type, self.armour)
+                         self.age, self.gender, self.alignment, self.armour_type, self.armour, self.stats_before_mod)
 
 
 class Character:
     def __init__(self, name, race, character_class, stats, level, hp, skill_proficiencies, tool_proficiencies,
                  inventory, armour_class, background, history, hair, skin, eyes, height, weight, age, gender,
-                 alignment, armour_type, armour):
+                 alignment, armour_type, armour, stats_before_mod):
         self.name = name
         self.race = race
         self.character_class = character_class
@@ -144,3 +149,4 @@ class Character:
         self.alignment = alignment
         self.armour_type = armour_type
         self.armour = armour
+        self.stats_before_mod = stats_before_mod

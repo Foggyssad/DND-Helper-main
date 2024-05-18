@@ -103,13 +103,13 @@ class Dictionaries:
     }
 
     RACE_STAT_MODIFIERS = {
-        "Aarakocra": {"Dexterity": +2, "Wisdom": +1},
-        "Dragonborn": {"Strength": +2, "Charisma": +1},
-        "Dwarf": {"Constitution": +2},
-        "Elf": {"Dexterity": +2},
-        "Genasi": {"Constitution": +2},
-        "Half-Orc": {"Strength": +2, "Constitution": +1},
-        "Aasimar": {"Dexterity": +2, "Wisdom": +1}
+        "Aarakocra": {"Dexterity:": +2, "Wisdom:": +1},
+        "Dragonborn": {"Strength:": +2, "Charisma:": +1},
+        "Dwarf": {"Constitution:": +2},
+        "Elf": {"Dexterity:": +2},
+        "Genasi": {"Constitution:": +2},
+        "Half-Orc": {"Strength:": +2, "Constitution:": +1},
+        "Aasimar": {"Dexterity:": +2, "Wisdom:": +1}
         # Add more races and their stat modifiers as needed
     }
 

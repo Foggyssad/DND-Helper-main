@@ -11,7 +11,7 @@ class Calculations:
         selected_race = gui_manager.entries["Race:"].cget("text")
 
         race_modifiers = self.dictionaries.RACE_STAT_MODIFIERS.get(selected_race, {})
-        dex_modifier_from_race = race_modifiers.get("Dexterity", 0)
+        dex_modifier_from_race = race_modifiers.get("Dexterity:", 0)
 
         modified_dex = base_dexterity + dex_modifier_from_race
 

@@ -23,10 +23,18 @@ class DataConservation:
         character_builder.set_character_class(gui_manager.entries["Class:"].cget("text"))
 
         modified_stats = {}
-        for stat in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]:
+        for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
             modified_stat_value = int(gui_manager.labels["Modified " + stat].cget("text").split(": ")[1])
             modified_stats[stat] = modified_stat_value
         character_builder.set_stats(modified_stats)
+
+        stats_before_mod = {}
+        for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
+            stat_before_mod_value = int(gui_manager.entries[stat].cget("text"))
+            print(stat_before_mod_value)
+            stats_before_mod[stat] = stat_before_mod_value
+        character_builder.set_stats_before_mod(stats_before_mod)
+        print(character_builder.stats_before_mod)
 
         character_builder.set_level(int(gui_manager.entries["Level:"].cget("text")))
 
@@ -78,6 +86,7 @@ class DataConservation:
             'race': character_builder.set_race,
             'character_class': character_builder.set_character_class,
             'stats': character_builder.set_stats,
+            'stats_before_mod': character_builder.set_stats_before_mod,
             'level': character_builder.set_level,
             'hit_points': character_builder.set_hit_points,
             'skill_proficiencies': character_builder.set_skill_proficiencies,
@@ -101,9 +110,17 @@ class DataConservation:
         for key, setter in setters.items():
             setter(data.get(key))
 
-        modified_stats = {}
-        for stat in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]:
-            modified_stat_value = int(data["stats"][stat])
-            modified_stats[stat] = modified_stat_value
-        character_builder.set_stats(modified_stats)
+        stats_before_mod = {}
+
+        for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
+            stat_before_mod_value = int(data["stats_before_mod"][stat])
+            stats_before_mod[stat] = stat_before_mod_value
+        character_builder.set_stats(stats_before_mod)
+        print(character_builder.stats_before_mod)
+
+        mod_stats = {}
+        for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
+            mod_stat_value = int(data["stats"][stat])
+            mod_stats[stat] = mod_stat_value
+        character_builder.set_stats(mod_stats)
         print(character_builder.stats)

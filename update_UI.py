@@ -62,16 +62,16 @@ class Update:
 
     def update_modified_labels(self, selected_values, race_modifiers):
         # Update modified stats based on race modifiers
-        for stat in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]:
+        for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
             modified_stat = selected_values[
-                ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"].index(stat)]
+                ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"].index(stat)]
             modifier = race_modifiers.get(stat, 0)  # Get the race modifier for the current stat
             modified_stat += modifier
 
             # Update the modified stat label
             label_key = "Modified " + stat
             label = self.gui_manager.labels[label_key]  # Retrieve the reference to the label widget
-            label.config(text=f"Modified {stat}: {modified_stat}")  # Update the GUI label text
+            label.config(text=f"Modified {stat} {modified_stat}")  # Update the GUI label text
 
     def get_skill_proficiencies(self):
         # Logic to fetch current skill proficiencies from the GUI
@@ -83,7 +83,7 @@ class Update:
     def update_skill_labels(self, skill_labels):
         # Get the modified stats values from the GUI
         selected_values = [int(self.gui_manager.labels["Modified " + stat].cget("text").split(": ")[1]) for stat in
-                           ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]]
+                           ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]]
 
         # Get the skill proficiencies
         skill_proficiencies = self.get_skill_proficiencies()
@@ -168,6 +168,7 @@ class Update:
         armours = self.dictionaries.ARMOUR_TYPES.get(selected_armour_type, ["None"])
         print(f"Available armours: {armours}")  # Debug print
         self.gui_manager.row_count = 5
+        self.gui_manager.column_count = 0
         self.gui_manager.create_dropdown_entry("Armour:", armours, default_value=selected_armour, command=self.update_armour_class_value)
 
         self.calc.calculate_armour_class(self.gui_manager)
@@ -175,3 +176,8 @@ class Update:
     def update_armour_dropdown_conj_func(self, selected_armour_type=None, selected_armour=None):
         self.update_armour_dropdown_for_fourth(selected_armour_type, selected_armour)
         self.update_armour_class_value()
+
+    def update_based_on_stats_before_mod(self, skill_labels):
+        self.update_skill_labels(skill_labels)
+        self.update_armour_class_value()
+        self.update_counter()

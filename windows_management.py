@@ -147,12 +147,12 @@ class FirstWindow(Window):
         self.gui_manager.create_dropdown_entry("Level:", [str(i) for i in range(1, 21)],
                                                command=self.update.update_counter)
 
-        for i, stat in enumerate(["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]):
+        for i, stat in enumerate(["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]):
             # Create entry for original stats
-            self.gui_manager.create_dropdown_entry(stat + ":", [str(i) for i in range(8, 16)],
+            self.gui_manager.create_dropdown_entry(stat, [str(i) for i in range(8, 16)],
                                                    command=self.update.update_counter)
 
-            modified_label = self.factory.create_label(self.master, "Modified " + stat + f": {str(8)}")
+            modified_label = self.factory.create_label(self.master, "Modified " + stat + f"{str(8)}")
             modified_label.grid(row=i + 4, column=2)  # Start from the fourth row, to the right of original stats
             self.gui_manager.labels["Modified " + stat] = modified_label  # Add the label to the labels dictionary
 
@@ -233,7 +233,7 @@ class FourthWindow(Window):
         characteristics = ["name", "race", "character_class", "hit_points", "inventory", "background", "level", "history", "hair",
                            "skin", "eyes", "height", "weight", "age", "gender", "alignment"]
 
-        self.gui_manager.column_count = 3
+        self.gui_manager.column_count = 4
         for skill in self.dictionaries.CLASS_SKILL:
             label_text = f"{skill}: +0"
             label = self.gui_manager.create_label(label_text)
@@ -301,17 +301,48 @@ class FourthWindow(Window):
 
         self.gui_manager.reset_row_count()
         print(self.events.tracker)
-        for stat in ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"]:
+        self.gui_manager.row_count = 10
+        self.gui_manager.column_count = 2
+        for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
             if self.events.tracker is False:
-                self.gui_manager.column_count = 2
                 modified_stat_value = int(self.gui_manager.labels["Modified " + stat].cget("text").split(": ")[1])
-                label = self.gui_manager.create_label(f"Modified {stat}: {modified_stat_value}")
+                label = self.gui_manager.create_label(f"Modified {stat} {modified_stat_value}")
                 self.gui_manager.labels[f"Modified {stat}"] = label
             else:
-                self.gui_manager.column_count = 2
                 modified_stat_value = self.character_builder.stats[stat]
-                label = self.gui_manager.create_label(f"Modified {stat}: {modified_stat_value}")
+                label = self.gui_manager.create_label(f"Modified {stat} {modified_stat_value}")
                 self.gui_manager.labels[f"Modified {stat}"] = label
+
+        self.gui_manager.row_count = 0
+        self.gui_manager.column_count = 2
+        print(self.events.tracker)
+        print(self.gui_manager.entries["Strength:"].cget("text"))
+        if self.events.tracker is False:
+            for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
+                self.gui_manager.create_dropdown_entry(stat, [str(i) for i in range(8, 16)],
+                                                       default_value=self.gui_manager.entries[stat].cget("text"),
+                                                       command=self.update.update_counter)
+        else:
+            for stat in ["Strength:", "Dexterity:", "Constitution:", "Intelligence:", "Wisdom:", "Charisma:"]:
+                # Ensure the key exists in stats_before_mod dictionary
+                if stat in self.character_builder.stats_before_mod:
+                    # Get the default value for the dropdown from stats_before_mod
+                    default_value = str(
+                        self.character_builder.stats_before_mod[stat])  # Ensure default_value is a string
+
+                    # Print debug information
+                    print(f"{stat} {self.character_builder.stats_before_mod[stat]}")
+                    print(f"Setting default_value for {stat}: {default_value}")
+
+                    # Create the dropdown entry with the correct default value
+                    self.gui_manager.create_dropdown_entry(
+                        stat,  # The label text for the dropdown
+                        [str(i) for i in range(8, 16)],  # Options for the dropdown
+                        default_value=default_value,  # Set the default value for the dropdown
+                        command=lambda event: self.update.update_based_on_stats_before_mod(self.skill_labels)  # Command to call when the dropdown value changes
+                    )
+                    self.update.update_based_on_stats_before_mod(self.skill_labels)
+
         self.update.update_skill_labels(self.skill_labels)
         super().create_save_button()
 

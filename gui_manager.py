@@ -55,8 +55,9 @@ class GUIManager:
 
     def create_dropdown_entry(self, label_text, options, default_value=None, command=None):
         row = self.row_count
+        column = self.column_count
         label = self.factory.create_label(self.master, label_text)
-        label.grid(row=row, column=0)
+        label.grid(row=row, column=column)
 
         # Create a variable to store the selected value
         selected_value = tk.StringVar(self.master)
@@ -75,7 +76,7 @@ class GUIManager:
                 command(selected_value.get())
 
         dropdown = self.factory.create_dropdown(self.master, options, command=callback, variable=selected_value)
-        dropdown.grid(row=row, column=1)
+        dropdown.grid(row=row, column=column + 1)
         self.row_count += 1
         dropdown.config(anchor='w')
         self.add_label(label_text, label)
