@@ -3,7 +3,7 @@
 ## Introduction:
 
 1. The purpose of the application is to provide the user with an interface to create character sheet for tabletop RPG DND.
-2. To start the program download the repository and launch the main.py script; alternatively the application can be started by going to the folder `dist` and running the `main.exe` executable file.
+2. To start the program download the repository and launch the `main.py` script.
 3. The process of using the program is quite straight forward: fill the labels, choose the desired options for character's characteristics and gain access to the character sheet.
 
 ## OOP Principles implementation:
@@ -56,26 +56,33 @@ class GUIFactory(AbstractFactory):
 ```py
 class CharacterBuilder:
     def __init__(self):
-        self.name = None
-        self.race = None
-        self.character_class = None
-        self.stats = None
-        self.level = None
-        self.hit_points = None
-        self.skill_proficiencies = None
-        self.tool_proficiencies = None
-        self.inventory = None
-        self.armor_class = None
-        self.background = None
-        self.history = None
-        self.hair = None
-        self.skin = None
-        self.eyes = None
-        self.height = None
-        self.weight = None
-        self.age = None
-        self.gender = None
-        self.alignment = None
+        self.name = ""
+        self.race = ""
+        self.character_class = ""
+        self.level = 0
+        self.background = ""
+        self.armour = ""
+        self.history = ""
+        self.hair = ""
+        self.skin = ""
+        self.eyes = ""
+        self.height = ""
+        self.weight = 0
+        self.age = 0
+        self.gender = ""
+        self.alignment = ""
+        self.armour_type = ""
+        self.stats = {}
+        self.stats_before_mod = {}
+        self.hit_points = ""
+        self.skill_proficiencies = ""
+        self.tool_proficiencies = ""
+        self.inventory = ""
+        self.armor_class = ""
+
+    def set_armour(self, armour):
+        self.armour = armour
+        return self
 
     def set_level(self, level):
         self.level = level
@@ -95,6 +102,10 @@ class CharacterBuilder:
 
     def set_stats(self, stats):
         self.stats = stats
+        return self
+
+    def set_stats_before_mod(self, stats_before_mod):
+        self.stats_before_mod = stats_before_mod
         return self
 
     def set_hit_points(self, hit_points):
@@ -157,17 +168,21 @@ class CharacterBuilder:
         self.alignment = alignment
         return self
 
+    def set_armour_type(self, armour_type):
+        self.armour_type = armour_type
+        return self
+
     def build(self):
         return Character(self.name, self.race, self.character_class, self.stats, self.level, self.hit_points,
                          self.skill_proficiencies, self.tool_proficiencies, self.inventory, self.armor_class,
                          self.background, self.history, self.hair, self.skin, self.eyes, self.height, self.weight,
-                         self.age, self.gender, self.alignment)
+                         self.age, self.gender, self.alignment, self.armour_type, self.armour, self.stats_before_mod)
 
 
 class Character:
     def __init__(self, name, race, character_class, stats, level, hp, skill_proficiencies, tool_proficiencies,
                  inventory, armour_class, background, history, hair, skin, eyes, height, weight, age, gender,
-                 alignment):
+                 alignment, armour_type, armour, stats_before_mod):
         self.name = name
         self.race = race
         self.character_class = character_class
@@ -188,6 +203,10 @@ class Character:
         self.age = age
         self.gender = gender
         self.alignment = alignment
+        self.armour_type = armour_type
+        self.armour = armour
+        self.stats_before_mod = stats_before_mod
+
 ```
 
 ### Reading from File & Writing to File:
@@ -221,7 +240,7 @@ In total there are 6 unittests that cover core functionality.
 
 ### Extensibility:
 
-1. **Multiple Characters**: Introduce new functionality of handling and editing not one but multiple characters.
+1. **Multiple Characters**: Introduce new functionality of handling and editing not one but multiple characters (character sheets).
 2. **Creation of new windows**: Creating the new subclass for parant class `Window` for each new window. 
 3. **Creation of new GUI elements**: By adding the additional subclass into the `GUIComponent` class and new respective method into `GUIFactory` class, the new element could be added.
 4. **Creation of additional characteristics**: Can be done through adding characteristic into CharacterBuilder class.
