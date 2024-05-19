@@ -25,6 +25,7 @@ class Update:
         self.calc.calculate_armour_class(self.gui_manager)
         self.update_armour_class_value()
         self.gui_manager.row_count = 1
+        self.gui_manager.column_count = 2
 
     def update_armour_class_value(self, *args):
         character_ac = self.calc.calculate_armour_class(self.gui_manager)
