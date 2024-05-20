@@ -56,8 +56,8 @@ class DataConservation:
         character_builder.set_skin(gui_manager.entries["Skin:"].get())
         character_builder.set_eyes(gui_manager.entries["Eyes:"].get())
         character_builder.set_height(gui_manager.entries["Height:"].get())
-        character_builder.set_weight(gui_manager.entries["Age:"].get())
-        character_builder.set_age(gui_manager.entries["Skin:"].get())
+        character_builder.set_weight(gui_manager.entries["Weight:"].get())
+        character_builder.set_age(gui_manager.entries["Age:"].get())
         character_builder.set_gender(gui_manager.entries["Gender:"].get())
         character_builder.set_alignment(gui_manager.entries["Alignment:"].get())
 
