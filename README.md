@@ -10,7 +10,7 @@
 
 1. **Encapsulation**: Encapsulation is demonstrated throughout the code by using classes to encapsulate related functionality and data. The `Calculations` class encapsulates the logic for computing character statistics, abstracts away the details of data access.
 2. **Inheritance**: Inheritance is utilized in the logic of creating windows to create relashionships between classes. The classes `FirstWindow`, `SecondWindow`, `ThirdWindow`, `ForthWindow` and `CharactersWindow` classes inherit from the `Window` class, and the GUI creation logic in `GUIFactory` class is biuld on iheritance.
-3. **Polymorphism**: Polymorphism is demonstrated through method overriding and method overloading. Subclasses `LabelComponent`, `EntryComponent`, `DropdownComponent`, `ButtonComponent` override the method `create()` from parant class `GUIComponent` to provide specific implementations.
+3. **Polymorphism**: Polymorphism is demonstrated through method overriding and method overloading. Subclasses `LabelComponent`, `EntryComponent`, `DropdownComponent`, `ButtonComponent` override the `create()` method from parant class `GUIComponent` to provide specific implementations.
 4. **Abstraction**: Abstraction is used to hide the internal implementation details of classes and expose only relevant functionalities. For instance, the `GUIComponent` class provides an abstract method `create()`, leaving the implementation details to its subclasses.
 
 ## Body/Analysis: Functional requirements.
@@ -51,7 +51,7 @@ class GUIFactory(AbstractFactory):
         return ButtonComponent().create(master, text=text, command=command)
 ```
 
-2. **Builder**: `CharacterBuilder` class is used as a storage for the data entered by user and, once filled, its instance is being passsed around windows. 
+2. **Builder**: The `CharacterBuilder` class is used as a storage for the data entered by the user, and once filled, its instance is passed around windows.
 
 ```py
 class CharacterBuilder:
@@ -210,18 +210,18 @@ class Character:
 ```
 
 ### Reading from File & Writing to File:
-The program reads chracacter's characteristics from the instance of CharacterBuilder class and writes them into the JSON file using the `DataConservation` class. The is updated each time the character sheet is updated.
+The program reads chracacter's characteristics from either the instance of `CharacterBuilder` class or the dictionaries of the instance of `GUIManager` class and writes them into the JSON file using the `DataConservation` class. The file is updated each time the character sheet is updated. The character also can be imported from the .json file using `import` button on first window.
 
 ### Testing with unittests:
-There are two scripsts for unittests: one checks the functionality of all calculations performed in `Calculations` class and the other one - of `DataConservations` class (filling the CharacterBuilder class' instance and saving data to .json file).
-In total there are 6 unittests that cover core functionality.
+There are two scripsts for unittests: one checks the functionality of all calculations performed in `Calculations` class and the other one - of `GUIManager` class (creation of GUI elements).
+In total there are 16 unittests that cover core functionality.
 
 ## Results and Summary
 
 ### Results:
 
 1. **Calculations**:
-   - Implemented the calculations required for additional character's characteristics based on the fundamental ones
+   - Implemented the calculations required for additional character's characteristics based on the fundamental ones.
 2. **Character Sheet Generation**:
    - Implemented functionalities for generating character sheets with all recorded details, providing a comprehensive overview of the character's traits and abilities.
 3. **Character Data Saving And Changing**:
@@ -234,6 +234,7 @@ In total there are 6 unittests that cover core functionality.
 ### Conclusions:
 
    The application successfully implements core functionalities related to character creation and management, providing a tool for DND players to create and modify their characters' characteristics.
+   The character sheet is accesseble after the initial creation, making the program useful in real world scenarios.
    The application follows modular design which allows to easily extend and maintain functionality.
    The application will be extended to allow creation of multiple character sheets and some new not yet implemented parameters such as feats and how the level of character affects the stats. 
 
@@ -243,4 +244,4 @@ In total there are 6 unittests that cover core functionality.
 1. **Multiple Characters**: Introduce new functionality of handling and editing not one but multiple characters (character sheets).
 2. **Creation of new windows**: Creating the new subclass for parant class `Window` for each new window. 
 3. **Creation of new GUI elements**: By adding the additional subclass into the `GUIComponent` class and new respective method into `GUIFactory` class, the new element could be added.
-4. **Creation of additional characteristics**: Can be done through adding characteristic into CharacterBuilder class.
+4. **Creation of additional characteristics**: Can be done through adding characteristic into `CharacterBuilder` class.
