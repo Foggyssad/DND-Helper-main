@@ -3,7 +3,7 @@
 ## Introduction:
 
 1. The purpose of the application is to provide the user with an interface to create character sheet for tabletop RPG DND.
-2. To start the program download the repository and launch the `main.py` script. The only requirementis that the `tkinter` and `json` external libraries have to be installed beforehand (on Windows they are installed by default with python).
+2. To start the program download the repository and launch the `main.py` script. The only requirement is that the `tkinter` and `json` external libraries have to be installed beforehand (on Windows they are installed by default with python).
 3. The process of using the program is quite straight forward: fill the labels, choose the desired options for character's characteristics and gain access to the character sheet.
 
 ## OOP Principles implementation:
